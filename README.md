@@ -1,2 +1,4 @@
-# giphy-platform
-Integrate GIFs in your execution model
+Giphy Platform
+=====
+
+Integrate GIFs from [Giphy](https://giphy.com/) in your execution model

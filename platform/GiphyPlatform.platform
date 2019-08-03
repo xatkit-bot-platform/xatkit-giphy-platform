@@ -1,0 +1,9 @@
+Platform GiphyPlatform 
+
+path "com.xatkit.plugins.giphy.platform.GiphyPlatform"
+
+actions {
+	
+	GetGif(search)
+	
+}
