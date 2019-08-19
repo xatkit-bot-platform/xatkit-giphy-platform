@@ -19,7 +19,7 @@ The Giphy platform does not define any provider.
 
 ## Options
 
-The Giphy platform supports the following options
+The Giphy platform supports the following configuration options
 
 | Key                  | Values | Description                                                  | Constraint    |
 | -------------------- | ------ | ------------------------------------------------------------ | ------------- |
