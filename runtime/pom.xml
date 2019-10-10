@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.xatkit</groupId>
         <artifactId>giphy-platform</artifactId>
-        <version>2.0.1</version>
+        <version>2.0.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>giphy-platform-runtime</artifactId>
@@ -17,7 +17,7 @@
         <dependency>
             <groupId>com.xatkit</groupId>
             <artifactId>core</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
