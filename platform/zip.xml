@@ -9,9 +9,6 @@
     </formats>
     <files>
         <file>
-            <source>GiphyPlatform.xmi</source>
-        </file>
-        <file>
             <source>GiphyPlatform.platform</source>
         </file>
     </files>
