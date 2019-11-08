@@ -4,6 +4,6 @@ path "com.xatkit.plugins.giphy.platform.GiphyPlatform"
 
 actions {
 	
-	GetGif(search)
+	GetGif(search : String)
 	
 }
