@@ -20,6 +20,13 @@ main() {
     cd xatkit-metamodels
     mvn install -DskipTests > /dev/null
     e "Done"
+
+    e "Building Xatkit Languages"
+    cd /tmp
+    git clone https://github.com/xatkit-bot-platform/xatkit-eclipse.git > /dev/null
+    cd xatkit-eclipse
+    mvn install -DskipTests > /dev/null
+    e "Done"
 	
 	# Do not print the build log, it is already available in the Xatkit build
     e "Building Xatkit Runtime"
