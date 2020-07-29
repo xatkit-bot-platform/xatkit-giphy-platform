@@ -1,17 +1,12 @@
 package com.xatkit.plugins.giphy.platform.action;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.mashape.unirest.http.Headers;
-import com.xatkit.core.platform.action.RestGetAction;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.request.HttpRequest;
 import com.xatkit.core.platform.action.RuntimeAction;
-import com.xatkit.core.session.XatkitSession;
+import com.xatkit.execution.StateContext;
 import com.xatkit.plugins.giphy.platform.GiphyPlatform;
-
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import org.json.JSONObject;
 
 /**
  * A {@link RuntimeAction} that retrieves a GIF from a given search string.
@@ -19,7 +14,7 @@ import java.util.Map;
  * This class relies on the {@link GiphyPlatform} to access the Giphy API using the token stored in the
  * {@link org.apache.commons.configuration2.Configuration}.
  */
-public class GetGif extends RestGetAction<GiphyPlatform> {
+public class GetGif extends RuntimeAction<GiphyPlatform> {
 
     /**
      * The Giphy REST endpoint to retrieve GIFs from search strings.
@@ -27,52 +22,37 @@ public class GetGif extends RestGetAction<GiphyPlatform> {
     private static String GIFS_SEARCH_URL = "https://api.giphy.com/v1/gifs/search";
 
     /**
-     * Constructs the REST request parameter map containing the Giphy API key and the query search string.
-     *
-     * @param giphyPlatform the {@link GiphyPlatform} containing the Giphy API token to use in the parameter map
-     * @param searchString  the search string used to retrieve GIFs
-     * @return a {@link Map} containing the Giphy API token and the provided {@code searchString}
+     * The {@link String} used to search GIFs.
      */
-    private static Map<String, Object> getParams(GiphyPlatform giphyPlatform, String searchString) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("api_key", giphyPlatform.getGiphyToken());
-        params.put("q", searchString);
-        return params;
-    }
+    private String searchString;
 
     /**
-     * Constructs a new {@link GetGif} with the provided {@code runtimePlatform}, {@code session}, and {@code
-     * searchString}.
+     * Constructs a new {@link GetGif} with the provided {@code platform}, {@code context}, and {@code searchString}.
      * <p>
      * This constructor requires a valid Giphy API token in order to build the REST query used to retrieve GIF urls.
      *
-     * @param runtimePlatform the {@link GiphyPlatform} containing this action
-     * @param session         the {@link XatkitSession} associated to this action
-     * @param searchString    the {@link String} used to search GIFs
+     * @param platform     the {@link GiphyPlatform} containing this action
+     * @param context      the {@link StateContext} associated to this action
+     * @param searchString the {@link String} used to search GIFs
      * @throws NullPointerException if the provided {@code runtimePlatform}, {@code session}, or {@code searchString}
      *                              is {@code null}
      * @see GiphyPlatform#getGiphyToken()
      */
-    public GetGif(GiphyPlatform runtimePlatform, XatkitSession session, String searchString) {
-        super(runtimePlatform, session, Collections.emptyMap(), GIFS_SEARCH_URL, getParams(runtimePlatform,
-                searchString));
+    public GetGif(GiphyPlatform platform, StateContext context, String searchString) {
+        super(platform, context);
+        this.searchString = searchString;
     }
 
-    /**
-     * Handles the Giphy API result and returns the retrieved GIF url.
-     *
-     * @param headers     the response's {@link Headers}
-     * @param status      the response status code
-     * @param body the response {@link JsonElement} containing the GIF url.
-     * @return the retrieve GIF url
-     */
     @Override
-    protected Object handleResponse(Headers headers, int status, InputStream body) {
-        JsonElement jsonElement = getJsonBody(body);
-        JsonObject object = jsonElement.getAsJsonObject().getAsJsonArray("data").get(0).getAsJsonObject();
-        JsonObject images = object.getAsJsonObject("images");
-        JsonObject original = images.getAsJsonObject("original");
-        String url = original.get("url").getAsString();
+    protected Object compute() throws Exception {
+        HttpRequest request = Unirest.get(GIFS_SEARCH_URL)
+                .queryString("api_key", this.runtimePlatform.getGiphyToken())
+                .queryString("q", this.searchString);
+        JsonNode jsonNode = request.asJson().getBody();
+        JSONObject jsonObject = (JSONObject) jsonNode.getObject().getJSONArray("data").get(0);
+        JSONObject images = jsonObject.getJSONObject("images");
+        JSONObject original = images.getJSONObject("original");
+        String url = original.getString("url");
         return url;
     }
 }
