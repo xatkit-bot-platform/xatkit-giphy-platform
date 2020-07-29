@@ -16,12 +16,38 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
         <maven-help-plugin.version>3.2.0</maven-help-plugin.version>
+        <unirest.version>1.4.9</unirest.version>
     </properties>
 
     <modules>
         <module>runtime</module>
         <module>platform</module>
     </modules>
+
+    <dependencies>
+
+        <!-- Unirest -->
+
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Unirest -->
+
+            <dependency>
+                <groupId>com.mashape.unirest</groupId>
+                <artifactId>unirest-java</artifactId>
+                <version>${unirest.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
 
     <build>
 
