@@ -52,7 +52,7 @@ public class GiphyPlatform extends RuntimePlatform {
      */
     public @NonNull String getGif(@NonNull StateContext context, @NonNull String searchString) {
         GetGif action = new GetGif(this, context, searchString);
-        RuntimeActionResult result = this.executeRuntimeAction(action);
+        RuntimeActionResult result = action.call();
         return (String) result.getResult();
     }
 
