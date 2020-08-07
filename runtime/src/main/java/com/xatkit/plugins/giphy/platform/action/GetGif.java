@@ -6,6 +6,7 @@ import com.mashape.unirest.request.HttpRequest;
 import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.execution.StateContext;
 import com.xatkit.plugins.giphy.platform.GiphyPlatform;
+import lombok.NonNull;
 import org.json.JSONObject;
 
 /**
@@ -38,7 +39,7 @@ public class GetGif extends RuntimeAction<GiphyPlatform> {
      *                              is {@code null}
      * @see GiphyPlatform#getGiphyToken()
      */
-    public GetGif(GiphyPlatform platform, StateContext context, String searchString) {
+    public GetGif(@NonNull GiphyPlatform platform, @NonNull StateContext context, @NonNull String searchString) {
         super(platform, context);
         this.searchString = searchString;
     }

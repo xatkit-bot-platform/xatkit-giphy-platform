@@ -6,22 +6,14 @@ import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.platform.action.RuntimeActionResult;
 import com.xatkit.execution.StateContext;
 import com.xatkit.plugins.giphy.platform.action.GetGif;
+import lombok.NonNull;
 import org.apache.commons.configuration2.Configuration;
+import org.jetbrains.annotations.NonNls;
 
 import static fr.inria.atlanmod.commons.Preconditions.checkArgument;
 
 /**
  * A {@link RuntimePlatform} class that connects and interacts with the Giphy API.
- * <p>
- * This platform provides the following {@link RuntimeAction}s to interact
- * with the Giphy API:
- * <ul>
- * <li>{@link GetGif}: retrieve a GIF from a given search
- * query</li>
- * </ul>
- * <p>
- * This class is part of xatkit's core platform, and can be used in an execution model by importing the
- * <i>GiphyPlatform</i> package.
  */
 public class GiphyPlatform extends RuntimePlatform {
 
@@ -58,9 +50,9 @@ public class GiphyPlatform extends RuntimePlatform {
      * @param searchString the query to send to the Giphy API
      * @return the URL of the GIF
      */
-    public String getGif(StateContext context, String searchString) {
+    public @NonNull String getGif(@NonNull StateContext context, @NonNull String searchString) {
         GetGif action = new GetGif(this, context, searchString);
-        RuntimeActionResult result = this.executeRuntimeAction(action);
+        RuntimeActionResult result = action.call();
         return (String) result.getResult();
     }
 
