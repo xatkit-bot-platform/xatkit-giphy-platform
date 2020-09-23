@@ -1,14 +1,12 @@
 package com.xatkit.plugins.giphy.platform;
 
-import com.xatkit.core.XatkitCore;
+import com.xatkit.core.XatkitBot;
 import com.xatkit.core.platform.RuntimePlatform;
-import com.xatkit.core.platform.action.RuntimeAction;
 import com.xatkit.core.platform.action.RuntimeActionResult;
 import com.xatkit.execution.StateContext;
 import com.xatkit.plugins.giphy.platform.action.GetGif;
 import lombok.NonNull;
 import org.apache.commons.configuration2.Configuration;
-import org.jetbrains.annotations.NonNls;
 
 import static fr.inria.atlanmod.commons.Preconditions.checkArgument;
 
@@ -35,8 +33,8 @@ public class GiphyPlatform extends RuntimePlatform {
      * @throws IllegalArgumentException if the provided {@code configuration} does not contain a Giphy API token
      */
     @Override
-    public void start(XatkitCore xatkitCore, Configuration configuration) {
-        super.start(xatkitCore, configuration);
+    public void start(XatkitBot xatkitBot, Configuration configuration) {
+        super.start(xatkitBot, configuration);
         checkArgument(configuration.containsKey(GIPHY_TOKEN_KEY), "Cannot construct a %s, please ensure that the " +
                         "configuration contains a valid Giphy API token (configuration key: %s)",
                 this.getClass().getSimpleName(), GIPHY_TOKEN_KEY);
